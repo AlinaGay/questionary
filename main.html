@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script>
+    var namePattern = "^[A-Z]+[a-z]{0,10}$";
+    var emailPattern = "^(?:100|[1-9]\\d|[6-9])$";
+
+
+    function validation(pattern, elementId) {
+        //console.log("tydy");
+        var re = new RegExp(pattern);
+        var answer = document.getElementById(elementId).value;
+        if (re.test(answer) == false) {
+            var validationComment = document.createElement('span');
+            validationComment.setAttribute("id", elementId + "Validation");
+            validationComment.innerHTML = 'No correct';
+            document.getElementById(elementId).parentElement.appendChild(validationComment);
+        }
+        else {
+            var span = document.createElement('span');
+            span.setAttribute("id", "email");
+            var node = document.createTextNode("Please, enter your email:");
+            span.appendChild(node);
+            document.getElementById("mainForm").parentElement.appendChild(span);
+            var email = document.createElement('input');
+            //email.setAttribute("id", "email");
+            email.setAttribute("type", "text");
+            document.getElementById("email").parentElement.appendChild(email);
+        }
+
+    }
+</script>
+<body>
+    <form id="mainForm">
+    <span>Please enter your name:
+        <input id="name" type="text" onblur="validation(namePattern,this.id)" value="">
+    </span>
+    </form>
+</body>
+
