@@ -6,11 +6,7 @@
 </head>
 <script>
     var namePattern = "^[A-Z]+[a-z]{0,10}$";
-    var emailElement = "email";
-    var emailPattern = "^(?:100|[1-9]\\d|[6-9])$";
-    var dateElement = "date";
-    var datePattern = "^(?:100|[1-9]\\d|[6-9])$";
-
+    var emailPattern = "^[-._a-z0-9]+@(?:[a-z0-9][-a-z0-9]+\\.)+[a-z]{2,6}$";
 
     function validation(pattern, elementId) {
         var re = new RegExp(pattern);
@@ -50,6 +46,6 @@
 </script>
 <body>
 <span id="nameSpan">Please enter your name:
-       <input id="name" type="text" onblur="validation(namePattern,this.id,emailElement)" value="">
+       <input id="name" type="text" onblur="validation(namePattern,this.id)" value="">
    </span>
 </body>
