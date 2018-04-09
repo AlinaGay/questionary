@@ -6,38 +6,50 @@
 </head>
 <script>
     var namePattern = "^[A-Z]+[a-z]{0,10}$";
+    var emailElement = "email";
     var emailPattern = "^(?:100|[1-9]\\d|[6-9])$";
+    var dateElement = "date";
+    var datePattern = "^(?:100|[1-9]\\d|[6-9])$";
 
 
     function validation(pattern, elementId) {
-        //console.log("tydy");
         var re = new RegExp(pattern);
-        var answer = document.getElementById(elementId).value;
-        if (re.test(answer) == false) {
-            var validationComment = document.createElement('span');
-            validationComment.setAttribute("id", elementId + "Validation");
-            validationComment.innerHTML = 'No correct';
-            document.getElementById(elementId).parentElement.appendChild(validationComment);
-        }
-        else {
-            var span = document.createElement('span');
-            span.setAttribute("id", "email");
-            var node = document.createTextNode("Please, enter your email:");
-            span.appendChild(node);
-            document.getElementById("mainForm").parentElement.appendChild(span);
-            var email = document.createElement('input');
-            //email.setAttribute("id", "email");
-            email.setAttribute("type", "text");
-            document.getElementById("email").parentElement.appendChild(email);
+        var text = document.getElementById(elementId).value;
+        var comment = 'No correct';
+        if (re.test(text) == true) {
+            comment='Correct';
+            var emailSpan = document.createElement('span');
+            emailSpan.setAttribute("id", "emailSpan");
+            var emailNode = document.createTextNode("Please, enter your email:");
+            emailSpan.appendChild(emailNode);
+            document.body.appendChild(emailSpan);
+            var emailInput = document.createElement('input');
+            emailInput.setAttribute("id", "email");
+            emailInput.setAttribute("type", "text");
+            emailInput.setAttribute("onblur", "validation(nextElementId+'Pattern',this.id)");
+            document.getElementById("emailSpan").parentElement.appendChild(emailInput);
+            var br = document.createElement('br');
+            document.body.insertBefore(br, emailSpan);
         }
 
+        var spanElement = document.getElementById(elementId + "Validation");
+
+        if (spanElement == null) {
+            var validate = document.createElement('span');
+            validate.setAttribute("id", elementId + "Validation");
+            validate.innerHTML = comment;
+            document.getElementById(elementId).parentElement.appendChild(validate);
+        }
+
+        if (spanElement != null) {
+            spanElement.innerHTML =comment;
+        }
     }
+
+
 </script>
 <body>
-    <form id="mainForm">
-    <span>Please enter your name:
-        <input id="name" type="text" onblur="validation(namePattern,this.id)" value="">
-    </span>
-    </form>
+<span id="nameSpan">Please enter your name:
+       <input id="name" type="text" onblur="validation(namePattern,this.id,emailElement)" value="">
+   </span>
 </body>
-
