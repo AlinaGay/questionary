@@ -8,41 +8,48 @@
     var patterns = ["^[A-Z]+[a-z]{0,10}$","^[-._a-z0-9]+@(?:[a-z0-9][-a-z0-9]+\\.)+[a-z]{2,6}$","^(?:100|[1-9]\\\\d|[6-9])$"];
     var elements = ['name','email','date'];
 
-    for (var i = 1,j = 1; i < patterns.length, j < elements.length; i++, j++){
-        function validation(pattern, elementId) { //функция валидации
-            var re = new RegExp(pattern); //переменной присваивается значение паттерна
-            var text = document.getElementById(elementId).value; //извлекается значение текста из input выше
-            var comment = 'No correct'; //начальное значение комментария
-            if (re.test(text) == true) { //если введенный текст соотвествует рег. выражению
-                comment = 'Correct';       //комментарий, который вставляется
-                var spanElement = document.createElement('span'); // добавляется элемент span
-                spanElement.setAttribute("id", elements[j] + "Span"); // устанавливается аттрибут id  к span
-                var nodeElement = document.createTextNode("Please, enter your " + elements[j] + ":"); // создачется Node с текстом
-                spanElement.appendChild(nodeElement); //node добавляется к span как ребенок
-                document.body.appendChild(spanElement); // добавляется span к телу документа как последний ребенок
+    function addSubmit() { }
+
+    function validation(pattern, elementId, index) { //функция валидации
+        var re = new RegExp(pattern); //переменной присваивается значение паттерна
+        var text = document.getElementById(elementId).value; //извлекается значение текста из input выше
+        var comment = 'No correct'; //начальное значение комментария
+        if (re.test(text) == true) { //если введенный текст соотвествует рег. выражению
+            comment = 'Correct';       //комментарий, который вставляется
+            var spanElement = document.createElement('span'); // добавляется элемент span
+            spanElement.setAttribute("id", elements[index] + "Span"); // устанавливается аттрибут id  к span
+            var nodeElement = document.createTextNode("Please, enter your " + elements[index] + ":"); // создачется Node с текстом
+            spanElement.appendChild(nodeElement); //node добавляется к span как ребенок
+            document.body.appendChild(spanElement); // добавляется span к телу документа как последний ребенок
+
+            if (index > elements.length) {
+                addSubmit();
+            } else {
                 var inputElement = document.createElement('input'); // создается элемент input
-                inputElement.setAttribute("id", elements[j]); // устанавливается атрибут id к input
+                inputElement.setAttribute("id", elements[index]); // устанавливается атрибут id к input
                 inputElement.setAttribute("type", "text"); // устанавливается атрибут type к input
-                inputElement.setAttribute("onblur", "validation(patterns[i],this.id)"); // устанавливается атрибут onblur к input
-                document.getElementById(elements[j] + "Span").parentElement.appendChild(inputElement);// добавляется input к span как ребенок
+                inputElement.setAttribute("onblur", "validation(patterns["+ index + "],elements["+ index + "],"+ (index + 1) +")"); // устанавливается атрибут onblur к input
+                document.getElementById(elements[index] + "Span").parentElement.appendChild(inputElement);// добавляется input к span как ребенок
                 var br = document.createElement('br'); //создается элемент br
                 document.body.insertBefore(br, spanElement);// вставляется br перед span
             }
-            var spanComment = document.getElementById(elementId + "Validation"); //переменной присвивается элемент с id с validation
-            if (spanComment == null) { // если элемент пустой
-                var validate = document.createElement('span'); //создаяется элмент span
-                validate.setAttribute("id", elementId + "Validation"); //присваивается id с validation для  span
-                validate.innerHTML = comment;//записывается комментарий в span
-                document.getElementById(elementId).parentElement.appendChild(validate); //добавляется span к input выше
-            }
-            if (spanComment != null) { // если span не пустой
-                spanComment.innerHTML = comment; // записываем в него  соответствующий комментарий
-            }
+
+
+        }
+        var spanComment = document.getElementById(elementId + "Validation"); //переменной присвивается элемент с id с validation
+        if (spanComment == null) { // если элемент пустой
+            var validate = document.createElement('span'); //создаяется элмент span
+            validate.setAttribute("id", elementId + "Validation"); //присваивается id с validation для  span
+            validate.innerHTML = comment;//записывается комментарий в span
+            document.getElementById(elementId).parentElement.appendChild(validate); //добавляется span к input выше
+        }
+        if (spanComment != null) { // если span не пустой
+            spanComment.innerHTML = comment; // записываем в него  соответствующий комментарий
         }
     }
 </script>
 <body>
 <span id="nameSpan">Please enter your name:
-      <input id="name" type="text" onblur="validation(patterns[0],this.id)" value="">
+      <input id="name" type="text" onblur="validation(patterns[0],this.id, 1)" value="">
   </span>
 </body>
